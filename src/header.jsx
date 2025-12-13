@@ -1,5 +1,5 @@
 import React from "react";
-import "./Header.css";
+import "./header.css";
 import logo from "../public/WhatsApp Image 2025-12-11 at 05.27.04_50cf84fd.jpg"
 
 export default function Header() {
