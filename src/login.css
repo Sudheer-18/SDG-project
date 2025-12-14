@@ -14,7 +14,6 @@
   animation: pageFade 0.8s ease;
 }
 
-/* PAGE FADE */
 @keyframes pageFade {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -25,8 +24,14 @@
   margin-bottom: 40px;
   font-size: 26px;
   font-weight: 700;
-  color: #2d3748;
   animation: titleSlide 0.8s ease;
+}
+
+.colored-title {
+  color: #E76B00; /* Orange color for title */
+  background: linear-gradient(90deg, #E76B00, #FFB347);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 @keyframes titleSlide {
@@ -44,6 +49,12 @@
 .login-container {
   display: flex;
   gap: 40px;
+  animation: containerFade 1s ease;
+}
+
+@keyframes containerFade {
+  from { opacity: 0; transform: translateY(15px);}
+  to { opacity: 1; transform: translateY(0);}
 }
 
 /* CARD */
@@ -88,6 +99,10 @@
 
 .student-header {
   background-color: #f57c20;
+}
+
+.staff-header {
+  background-color: #2563eb; /* blue */
 }
 
 /* BODY */
@@ -142,19 +157,13 @@
   background-color: #f57c20;
 }
 
+.staff-btn {
+  background-color: #2563eb;
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .login-container {
     flex-direction: column;
   }
-}
-
-
-/* STAFF (BLUE THEME) */
-.staff-header {
-  background-color: #2563eb; /* blue */
-}
-
-.staff-btn {
-  background-color: #2563eb;
 }

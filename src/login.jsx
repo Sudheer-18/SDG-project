@@ -19,7 +19,7 @@ export default function LoginPage({ onLogin }) {
 
   return (
     <div className="login-page">
-      <h2 className="main-title">
+      <h2 className="main-title colored-title">
         Keyword Analyzer for SDG–Scopus Mapping
       </h2>
 
