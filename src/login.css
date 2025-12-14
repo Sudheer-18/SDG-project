@@ -5,7 +5,7 @@
 
 /* PAGE */
 .login-page {
-  min-height: calc(100vh - 100px);
+  min-height: calc(80vh - 100px);
   background-color: #f4f4f4;
   display: flex;
   flex-direction: column;
