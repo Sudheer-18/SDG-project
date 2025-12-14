@@ -21,7 +21,7 @@ function App() {
   const [statusMessage, setStatusMessage] = useState("");
   const [noMatchMessage, setNoMatchMessage] = useState("");
 
-  // Scroll button
+  /* Scroll Button */
   useEffect(() => {
     const handleScroll = () => setShowScrollButton(window.scrollY > 300);
     window.addEventListener("scroll", handleScroll);
@@ -39,7 +39,7 @@ function App() {
     setNoMatchMessage("");
   };
 
-  // SDG Search
+  /* SDG SEARCH */
   const runSearch = (text) => {
     setStatusMessage("Analyzing keywords...");
     setNoMatchMessage("");
@@ -80,7 +80,7 @@ function App() {
     setIsLoading(false);
   };
 
-  // File upload
+  /* FILE UPLOAD */
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -152,7 +152,7 @@ function App() {
           <LoginPage onLogin={setUserRole} />
         ) : (
           <div className="max-w-7xl mx-auto py-4 px-4 md:px-8">
-            {/* Tabs */}
+            {/* TABS */}
             <div className="flex justify-center border-b-2 border-[#E76B00]/40 mb-4">
               <button
                 className={`py-3 px-8 text-lg font-semibold ${
@@ -217,11 +217,11 @@ function App() {
                 {lastResult?.matchedSdgs &&
                   Object.keys(lastResult.matchedSdgs).length > 0 && (
                     <>
-                      <div className="mt-10 mb-4 text-left">
+                      {/* FULL UNDERLINE HEADING */}
+                      <div className="mt-10 mb-6 text-left border-b-4 border-[#E76B00] pb-2">
                         <h2 className="text-2xl font-bold text-[#E76B00]">
                           Matched SDGs
                         </h2>
-                        <div className="w-24 h-1 bg-[#E76B00] mt-2 rounded"></div>
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -260,7 +260,7 @@ function App() {
         )}
       </div>
 
-      {/* Scroll To Top */}
+      {/* SCROLL TO TOP */}
       {showScrollButton && (
         <button
           onClick={scrollToTop}
