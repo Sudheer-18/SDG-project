@@ -81,46 +81,37 @@ function App() {
     setIsLoading(false);
   };
 
-  /* ---------------- Extract Sections (VALIDATION ONLY) ---------------- */
+  /* ---------------- Extract ONLY Abstract & Keywords ---------------- */
   const extractSections = (text) => {
     const lines = text
       .split("\n")
       .map((line) => line.trim())
       .filter(Boolean);
 
-    let title = lines[0] || "";
     let abstract = "";
     let keywords = [];
-    let description = "";
 
     const abstractIndex = lines.findIndex((l) =>
       l.toLowerCase().startsWith("abstract")
     );
+
     const keywordsIndex = lines.findIndex((l) =>
       l.toLowerCase().startsWith("keywords")
     );
-    const descriptionIndex = lines.findIndex((l) =>
-      l.toLowerCase().startsWith("description")
-    );
 
     if (abstractIndex !== -1) {
-      abstract = lines.slice(abstractIndex + 1, abstractIndex + 5).join(" ");
+      abstract = lines.slice(abstractIndex + 1, abstractIndex + 6).join(" ");
     }
 
     if (keywordsIndex !== -1) {
       keywords = lines[keywordsIndex]
         .replace(/keywords[:\-]?/i, "")
         .split(",")
-        .map((k) => k.trim());
+        .map((k) => k.trim())
+        .filter(Boolean);
     }
 
-    if (descriptionIndex !== -1) {
-      description = lines
-        .slice(descriptionIndex + 1, descriptionIndex + 5)
-        .join(" ");
-    }
-
-    return { title, abstract, keywords, description };
+    return { abstract, keywords };
   };
 
   /* ---------------- File Upload ---------------- */
@@ -167,15 +158,10 @@ function App() {
 
       const extracted = extractSections(text);
 
-      /* Validation only */
-      if (
-        !extracted.title ||
-        !extracted.abstract ||
-        !extracted.keywords.length ||
-        !extracted.description
-      ) {
+      /* ✅ VALIDATION: ONLY ABSTRACT + KEYWORDS */
+      if (!extracted.abstract || !extracted.keywords.length) {
         setStatusMessage(
-          "Uploaded file must contain Title, Abstract, Keywords, and Description."
+          "Uploaded file must contain Abstract and Keywords."
         );
         setIsLoading(false);
         return;
@@ -273,7 +259,6 @@ function App() {
                 )}
               </div>
 
-              {/* SDG Matches */}
               {lastResult?.matchedSdgs &&
                 Object.keys(lastResult.matchedSdgs).length > 0 && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
