@@ -20,7 +20,7 @@ function App() {
   const [statusMessage, setStatusMessage] = useState("");
   const [noMatchMessage, setNoMatchMessage] = useState("");
 
-  /* ---------------- Scroll Button ---------------- */
+  // ---------------- Scroll Button ----------------
   useEffect(() => {
     const handleScroll = () => setShowScrollButton(window.scrollY > 300);
     window.addEventListener("scroll", handleScroll);
@@ -30,7 +30,7 @@ function App() {
   const scrollToTop = () =>
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-  /* ---------------- Back to Login ---------------- */
+  // ---------------- Back to Login ----------------
   const goBackToLogin = () => {
     setUserRole(null);
     setActiveTab("search");
@@ -39,7 +39,7 @@ function App() {
     setNoMatchMessage("");
   };
 
-  /* ---------------- SDG SEARCH (PER-SDG ≥5 RULE) ---------------- */
+  // ---------------- SDG SEARCH ----------------
   const runSearch = (text) => {
     setStatusMessage("Analyzing keywords...");
     setNoMatchMessage("");
@@ -81,40 +81,7 @@ function App() {
     setIsLoading(false);
   };
 
-  /* ---------------- Extract ONLY Abstract & Keywords ---------------- */
-  const extractSections = (text) => {
-    const lines = text
-      .split("\n")
-      .map((line) => line.trim())
-      .filter(Boolean);
-
-    let abstract = "";
-    let keywords = [];
-
-    const abstractIndex = lines.findIndex((l) =>
-      l.toLowerCase().startsWith("abstract")
-    );
-
-    const keywordsIndex = lines.findIndex((l) =>
-      l.toLowerCase().startsWith("keywords")
-    );
-
-    if (abstractIndex !== -1) {
-      abstract = lines.slice(abstractIndex + 1, abstractIndex + 6).join(" ");
-    }
-
-    if (keywordsIndex !== -1) {
-      keywords = lines[keywordsIndex]
-        .replace(/keywords[:\-]?/i, "")
-        .split(",")
-        .map((k) => k.trim())
-        .filter(Boolean);
-    }
-
-    return { abstract, keywords };
-  };
-
-  /* ---------------- File Upload ---------------- */
+  // ---------------- File Upload ----------------
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -131,7 +98,6 @@ function App() {
       if (file.type === "application/pdf") {
         const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
         let allText = "";
-
         for (let i = 1; i <= pdf.numPages; i++) {
           const page = await pdf.getPage(i);
           const content = await page.getTextContent();
@@ -156,17 +122,7 @@ function App() {
         return;
       }
 
-      const extracted = extractSections(text);
-
-      /* ✅ VALIDATION: ONLY ABSTRACT + KEYWORDS */
-      if (!extracted.abstract || !extracted.keywords.length) {
-        setStatusMessage(
-          "Uploaded file must contain Abstract and Keywords."
-        );
-        setIsLoading(false);
-        return;
-      }
-
+      // Directly run search on full text
       runSearch(text);
     } catch (err) {
       console.error(err);
@@ -175,7 +131,7 @@ function App() {
     }
   };
 
-  /* ---------------- UI ---------------- */
+  // ---------------- UI ----------------
   return (
     <div className="min-h-screen bg-[#f8f8f8] font-sans text-gray-800">
       <Header />
@@ -226,14 +182,13 @@ function App() {
             )}
           </div>
 
+          {/* Search Tab */}
           {activeTab === "search" && (
             <div className="bg-white p-6 md:p-10 rounded-xl shadow-2xl text-center">
               <label
                 htmlFor="file-upload"
                 className={`cursor-pointer px-10 py-3 bg-[#E76B00] text-white text-xl font-bold rounded-lg shadow-lg ${
-                  isLoading
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:bg-[#d16100]"
+                  isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-[#d16100]"
                 }`}
               >
                 {isLoading ? "Processing..." : "Upload .pdf or .docx File"}
@@ -259,6 +214,7 @@ function App() {
                 )}
               </div>
 
+              {/* SDG Matches */}
               {lastResult?.matchedSdgs &&
                 Object.keys(lastResult.matchedSdgs).length > 0 && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
@@ -289,6 +245,7 @@ function App() {
             </div>
           )}
 
+          {/* Keywords Tab */}
           {activeTab === "keywords" && userRole === "employee" && (
             <SdgKeywordList />
           )}
