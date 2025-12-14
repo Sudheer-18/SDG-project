@@ -20,7 +20,7 @@ function Footer() {
         <div>
           <img
             src="../src/assets/image.png"
-            alt="../src/assets/image.png"
+            alt="./assets/image.png"
             className="w-60 mb-8"
           />
 
