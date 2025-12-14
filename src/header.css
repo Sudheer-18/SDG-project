@@ -3,24 +3,15 @@
   background: #ffffff;
   display: flex;
   align-items: center;
+  justify-content: space-between; /* 👈 key line */
   padding: 12px 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
   height: 70px;
-  margin-right: 20px;
 }
 
-.title h1 {
-  font-size: 22px;
-  font-weight: 700;
-  color: #ff7a00;
-  margin: 0;
-}
-
-.title p {
-  margin: 2px 0 0;
-  font-size: 14px;
-  color: #444;
+.logo2 {
+  height: 70px;
 }

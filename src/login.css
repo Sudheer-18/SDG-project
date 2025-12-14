@@ -3,61 +3,158 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.login-container {
+/* PAGE */
+.login-page {
   min-height: calc(100vh - 100px);
-  /* background: linear-gradient(135deg, #667eea, #764ba2); */
+  background-color: #f4f4f4;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  padding-top: 40px;
+  animation: pageFade 0.8s ease;
+}
+
+/* PAGE FADE */
+@keyframes pageFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* TITLE */
+.main-title {
+  margin-bottom: 40px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #2d3748;
+  animation: titleSlide 0.8s ease;
+}
+
+@keyframes titleSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* CONTAINER */
+.login-container {
+  display: flex;
   gap: 40px;
 }
 
-
+/* CARD */
 .login-card {
-  background: #ffffff;
   width: 320px;
-  padding: 30px;
+  background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  animation: cardUp 0.9s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@keyframes cardUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .login-card:hover {
   transform: translateY(-6px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
 }
 
-.login-card h2 {
+/* HEADER */
+.card-header {
+  padding: 14px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
   text-align: center;
-  margin-bottom: 20px;
-  color: #333;
 }
 
-.login-card input {
+.employee-header {
+  background-color: #8a1c7c;
+}
+
+.student-header {
+  background-color: #f57c20;
+}
+
+/* BODY */
+.card-body {
+  padding: 25px;
+}
+
+/* INPUT */
+.card-body input {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 15px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.login-card input:focus {
+.card-body input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #555;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
 }
 
-.login-card button {
-  width: 100%;
-  padding: 12px;
-  background: #667eea;
+/* BUTTON */
+.card-body button {
+  float: right;
+  padding: 6px 18px;
   border: none;
-  border-radius: 6px;
-  color: #fff;
-  font-size: 16px;
+  border-radius: 18px;
+  color: #ffffff;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: transform 0.15s ease, opacity 0.2s ease;
 }
 
-.login-card button:hover {
-  background: #5a67d8;
+.card-body button:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.card-body button:active {
+  transform: scale(0.95);
+}
+
+.employee-btn {
+  background-color: #8a1c7c;
+}
+
+.student-btn {
+  background-color: #f57c20;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+}
+
+
+/* STAFF (BLUE THEME) */
+.staff-header {
+  background-color: #2563eb; /* blue */
+}
+
+.staff-btn {
+  background-color: #2563eb;
 }

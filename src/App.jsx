@@ -69,22 +69,19 @@ function App() {
     }
 
     if (!hasValidSDG) {
-      setLastResult((prev) => ({ ...prev, matchedSdgs: {} }));
+      setLastResult({ matchedSdgs: {} });
       setNoMatchMessage("No keywords matched");
       setStatusMessage("");
       setIsLoading(false);
       return;
     }
 
-    setLastResult((prev) => ({
-      ...prev,
-      matchedSdgs,
-    }));
+    setLastResult({ matchedSdgs });
     setStatusMessage("");
     setIsLoading(false);
   };
 
-  /* ---------------- Extract Title, Abstract, Keywords, Description ---------------- */
+  /* ---------------- Extract Sections (VALIDATION ONLY) ---------------- */
   const extractSections = (text) => {
     const lines = text
       .split("\n")
@@ -96,23 +93,18 @@ function App() {
     let keywords = [];
     let description = "";
 
-    const abstractIndex = lines.findIndex((line) =>
-      line.toLowerCase().startsWith("abstract")
+    const abstractIndex = lines.findIndex((l) =>
+      l.toLowerCase().startsWith("abstract")
     );
-    const keywordsIndex = lines.findIndex((line) =>
-      line.toLowerCase().startsWith("keywords")
+    const keywordsIndex = lines.findIndex((l) =>
+      l.toLowerCase().startsWith("keywords")
     );
-    const descriptionIndex = lines.findIndex((line) =>
-      line.toLowerCase().startsWith("description")
+    const descriptionIndex = lines.findIndex((l) =>
+      l.toLowerCase().startsWith("description")
     );
 
     if (abstractIndex !== -1) {
-      abstract = lines
-        .slice(
-          abstractIndex + 1,
-          keywordsIndex !== -1 ? keywordsIndex : abstractIndex + 5
-        )
-        .join(" ");
+      abstract = lines.slice(abstractIndex + 1, abstractIndex + 5).join(" ");
     }
 
     if (keywordsIndex !== -1) {
@@ -128,7 +120,7 @@ function App() {
         .join(" ");
     }
 
-    return { title, abstract, keywords, description, text };
+    return { title, abstract, keywords, description };
   };
 
   /* ---------------- File Upload ---------------- */
@@ -151,8 +143,8 @@ function App() {
 
         for (let i = 1; i <= pdf.numPages; i++) {
           const page = await pdf.getPage(i);
-          const textContent = await page.getTextContent();
-          allText += textContent.items.map((i) => i.str).join("\n") + "\n";
+          const content = await page.getTextContent();
+          allText += content.items.map((i) => i.str).join("\n") + "\n";
         }
         text = allText.trim();
       } else if (
@@ -173,14 +165,14 @@ function App() {
         return;
       }
 
-      const extractedData = extractSections(text);
+      const extracted = extractSections(text);
 
-      // ✅ Validation: Must contain Title, Abstract, Keywords, Description
+      /* Validation only */
       if (
-        !extractedData.title ||
-        !extractedData.abstract ||
-        !extractedData.keywords.length ||
-        !extractedData.description
+        !extracted.title ||
+        !extracted.abstract ||
+        !extracted.keywords.length ||
+        !extracted.description
       ) {
         setStatusMessage(
           "Uploaded file must contain Title, Abstract, Keywords, and Description."
@@ -189,8 +181,7 @@ function App() {
         return;
       }
 
-      setLastResult({ extractedData }); // Save extracted data
-      runSearch(extractedData.text); // Run SDG search on full text
+      runSearch(text);
     } catch (err) {
       console.error(err);
       setStatusMessage("Error reading file");
@@ -282,29 +273,6 @@ function App() {
                 )}
               </div>
 
-              {/* Extracted Sections */}
-              {lastResult?.extractedData && (
-                <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-md text-left">
-                  <h2 className="font-bold text-xl mb-2">Extracted Info</h2>
-                  <p>
-                    <span className="font-semibold">Title:</span>{" "}
-                    {lastResult.extractedData.title}
-                  </p>
-                  <p>
-                    <span className="font-semibold">Abstract:</span>{" "}
-                    {lastResult.extractedData.abstract}
-                  </p>
-                  <p>
-                    <span className="font-semibold">Keywords:</span>{" "}
-                    {lastResult.extractedData.keywords.join(", ")}
-                  </p>
-                  <p>
-                    <span className="font-semibold">Description:</span>{" "}
-                    {lastResult.extractedData.description}
-                  </p>
-                </div>
-              )}
-
               {/* SDG Matches */}
               {lastResult?.matchedSdgs &&
                 Object.keys(lastResult.matchedSdgs).length > 0 && (
@@ -321,10 +289,10 @@ function App() {
                             className="w-full h-auto object-cover"
                           />
                           <div className="p-4 bg-white">
-                            <h3 className="text-lg font-bold text-gray-800 mb-2">
+                            <h3 className="text-lg font-bold mb-2">
                               {sdg.title}
                             </h3>
-                            <p className="font-bold text-gray-700 text-sm">
+                            <p className="font-bold text-sm">
                               Total Matched: {sdg.count}
                             </p>
                           </div>
