@@ -36,6 +36,19 @@ export default function LoginPage({ onLogin }) {
           </form>
         </div>
 
+
+
+          <div className="login-card staff">
+          <div className="card-header staff-header">
+            Staff Login
+          </div>
+          <form onSubmit={handleStaffLogin} className="card-body">
+            <input type="text" placeholder="Employee ID" required />
+            <input type="password" placeholder="Password" required />
+            <button type="submit" className="staff-btn">Login</button>
+          </form>
+        </div>
+
         {/* Student */}
         <div className="login-card student">
           <div className="card-header student-header">
@@ -49,16 +62,7 @@ export default function LoginPage({ onLogin }) {
         </div>
 
         {/* Staff */}
-        <div className="login-card staff">
-          <div className="card-header staff-header">
-            Staff Login
-          </div>
-          <form onSubmit={handleStaffLogin} className="card-body">
-            <input type="text" placeholder="Employee ID" required />
-            <input type="password" placeholder="Password" required />
-            <button type="submit" className="staff-btn">Login</button>
-          </form>
-        </div>
+      
       </div>
     </div>
   );
