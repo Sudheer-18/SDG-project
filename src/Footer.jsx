@@ -1,5 +1,4 @@
 import React from "react";
-import './header'
 import {
   FaFacebookF,
   FaTwitter,
@@ -11,6 +10,9 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 
+// ✅ IMPORT IMAGE (IMPORTANT)
+import logo from "./assets/image.png";
+
 function Footer() {
   return (
     <footer className="bg-[#062b4d] text-white">
@@ -19,8 +21,8 @@ function Footer() {
         {/* LOGO + SOCIAL */}
         <div>
           <img
-            src="../src/assets/image.png"
-            alt="./assets/image.png"
+            src={logo}
+            alt="Aditya University Logo"
             className="w-60 mb-8"
           />
 
@@ -48,9 +50,11 @@ function Footer() {
 
           <p className="flex gap-3">
             <FaPhoneAlt className="text-orange-400" />
-            0884-2326202, <br />
-            +91 99498 76662,<br />
-            +91 99897 76661
+            <span>
+              0884-2326202<br />
+              +91 99498 76662<br />
+              +91 99897 76661
+            </span>
           </p>
 
           <p className="flex gap-3">
@@ -68,7 +72,7 @@ function Footer() {
         <div>
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-xl font-bold">REACH US :</h3>
-            <button className="bg-sky-400 hover:bg-sky-500 text-sm px-3 py-1 rounded">
+            <button className="bg-sky-400 hover:bg-sky-500 text-sm px-3 py-1 rounded transition">
               360° View
             </button>
           </div>
@@ -103,7 +107,6 @@ function Footer() {
         </div>
       </div>
 
-      {/* BOTTOM BAR */}
       <div className="bg-[#041f38] text-center py-4 text-sm opacity-80">
         © {new Date().getFullYear()} Aditya University. All Rights Reserved.
       </div>
@@ -111,9 +114,9 @@ function Footer() {
   );
 }
 
-/* SOCIAL ICON */
 const SocialIcon = ({ children }) => (
-  <div className="w-9 h-9 flex items-center justify-center border border-white/40 rounded hover:bg-orange-500 hover:border-orange-500 transition cursor-pointer">
+  <div className="w-9 h-9 flex items-center justify-center border border-white/40 rounded
+                  hover:bg-orange-500 hover:border-orange-500 transition cursor-pointer">
     {children}
   </div>
 );
